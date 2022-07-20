@@ -1,5 +1,18 @@
+.canvasContainer {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
 .canvasArea {
     height: 100%;
     width: 100%;
-    touch-action: none;
+}
+
+.toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
 }

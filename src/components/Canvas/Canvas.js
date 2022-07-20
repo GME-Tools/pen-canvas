@@ -1,18 +1,17 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
+import { Card } from '@mui/material';
+import SketchCanvas from 'components/SketchCanvas/SketchCanvas';
 import "./Canvas.css";
 
-const Canvas = props => {
-    
-    const canvasRef = useRef(null);
-
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        const context = canvas.getContext('2d');
-        //context.fillStyle = "#0000FF";
-        //context.fillRect(0, 0, context.canvas.width, context.canvas.height);
-    }, []);
-
-    return <canvas className="canvasArea" ref={canvasRef} {...props} />
+export default function Canvas() {
+  return (
+    <div className="canvasContainer">
+      <SketchCanvas
+        className="canvasArea"
+        strokeWidth={4}
+        strokeColor="red"
+      />
+      <Card className="toolbar"></Card>
+    </div>
+  )
 }
-
-export default Canvas;
