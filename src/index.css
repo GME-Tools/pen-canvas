@@ -10,6 +10,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  background-color: #efefef;
+  text-align:left;
+  overflow: hidden;
 }
 
 code {
