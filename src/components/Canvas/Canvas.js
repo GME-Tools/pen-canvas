@@ -40,6 +40,7 @@ export default function Canvas() {
         strokeWidth={4}
         strokeColor="red"
         onChange={handleChange}
+        allowOnlyPointerType="pen"
         editable={isAuth}
       />
       <Card className="toolbar"></Card>
