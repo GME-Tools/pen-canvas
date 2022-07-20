@@ -13,7 +13,7 @@ export default function Canvas() {
 
   useEffect(() => {
     firebase.getDocument("canvas",id).then(doc => {
-        console.log(doc.data().paths);
+        //console.log(doc.data().paths);
         canvasRef.current?.loadPaths(doc.data().paths)
     });
     if (token) {
@@ -26,10 +26,10 @@ export default function Canvas() {
     }
   },[firebase,id,token])
 
-  const handleChange = (data) => {
-    if (data.length > 0) {
-        firebase.setDocument("canvas",id,{paths:data});
-    }
+  const handleChange = (data,isEraser) => {
+    canvasRef.current?.exportPaths().then(paths => {
+        firebase.setDocument("canvas",id,{paths:paths})
+    });
   }
 
   return (
@@ -39,7 +39,7 @@ export default function Canvas() {
         className="canvasArea"
         strokeWidth={4}
         strokeColor="red"
-        onChange={handleChange}
+        onStroke={handleChange}
         allowOnlyPointerType="pen"
         editable={isAuth}
       />
