@@ -40,15 +40,15 @@ const SketchCanvas = forwardRef((props, ref) => {
       return;
     }
     onStroke(lastStroke, !lastStroke.drawMode);
-  }, [isDrawing]);
+  }, [isDrawing,currentPath,onStroke]);
 
   useEffect(() => {
     liftStrokeUp();
-  }, [isDrawing]);
+  }, [isDrawing,liftStrokeUp]);
 
   useEffect(() => {
     onChange(currentPaths);
-  }, [currentPaths]);
+  }, [currentPaths,onChange]);
 
   useImperativeHandle(ref, () => ({
     eraseMode: (erase) => {
