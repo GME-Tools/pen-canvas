@@ -40,7 +40,7 @@ const SketchCanvas = forwardRef((props, ref) => {
       return;
     }
     onStroke(lastStroke, !lastStroke.drawMode);
-  }, [isDrawing,currentPath,onStroke]);
+  }, [isDrawing,currentPaths,onStroke]);
 
   useEffect(() => {
     liftStrokeUp();
