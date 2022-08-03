@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useFirebase } from "context/FirebaseContext";
-import { Card } from '@mui/material';
+import { Card, IconButton, Slider } from '@mui/material';
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 import SketchCanvas from 'components/SketchCanvas/SketchCanvas';
 import "./Canvas.css";
 
@@ -11,6 +12,8 @@ export default function Canvas() {
   const { id, token } = useParams();
   const [isAuth, setIsAuth] = useState(false);
   const [mustSave, setMustSave] = useState(false);
+  const [sizeOpen, setSizeOpen] = useState(false);
+  const [size, setSize] = useState(4);
 
   useEffect(() => {
     firebase.getDocument("canvas",id).then(doc => {
@@ -47,13 +50,26 @@ export default function Canvas() {
       <SketchCanvas
         ref={canvasRef}
         className="canvasArea"
-        strokeWidth={4}
+        strokeWidth={size}
         strokeColor="red"
         onStroke={handleStroke}
-        allowOnlyPointerType="pen"
+        allowOnlyPointerType="all"
         editable={isAuth}
       />
-      <Card className="toolbar"></Card>
+      <Card className="toolbar">
+        <IconButton color="primary" onClick={() => setSizeOpen(o => (!o))}>
+          <HorizontalRuleIcon />
+        </IconButton>
+      </Card>
+      <Card className="sizetoolbar" sx={{display: {xs: sizeOpen?"block":"none"}}}>
+        <Slider
+          value={size}
+          min={1}
+          max={10}
+          step={1}
+          onChange={(event,val)=>setSize(val)}
+        />
+      </Card>
     </div>
   )
 }
