@@ -23,8 +23,15 @@ export default function Canvas() {
     }
   },[firebase,id,token])
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      firebase.setDocument("canvas",id,{paths:paths});
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   const handleChange = (data) => {
-    firebase.setDocument("canvas",id,{paths:data});
+    setPaths(data);
   }
 
   return (
