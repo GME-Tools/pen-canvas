@@ -10,10 +10,10 @@ export default function Canvas() {
   const firebase = useFirebase();
   const { id, token } = useParams();
   const [isAuth, setIsAuth] = useState(false);
+  const [mustSave, setMustSave] = useState(false);
 
   useEffect(() => {
     firebase.getDocument("canvas",id).then(doc => {
-        //console.log(doc.data().paths);
         canvasRef.current?.loadPaths(doc.data().paths)
     });
     if (token) {
@@ -28,15 +28,18 @@ export default function Canvas() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      firebase.setDocument("canvas",id,{paths:paths});
+      if (mustSave) {
+        canvasRef.current?.exportPaths().then(paths => {
+          firebase.setDocument("canvas",id,{paths:paths});
+        })
+        setMustSave(false);
+      }
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [firebase,id,mustSave]);
 
-  const handleChange = () => {
-    canvasRef.current?.exportPaths().then(data => {
-      setPaths(data);
-    }
+  const handleStroke = () => {
+    setMustSave(true);
   }
 
   return (
@@ -46,7 +49,7 @@ export default function Canvas() {
         className="canvasArea"
         strokeWidth={4}
         strokeColor="red"
-        onStroke={handleChange}
+        onStroke={handleStroke}
         allowOnlyPointerType="pen"
         editable={isAuth}
       />
